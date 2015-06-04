@@ -25,10 +25,10 @@ function cropClick(number){
 	else if (neededClicks <= 20 && neededClicks > 10) {
 		document.getElementById("btn").style.color = "green";
 	}
-	else if (neededClicks >= 30 && neededClicks < 40) {
+	else if (neededClicks <= 10 && neededClicks > 0) {
 		document.getElementById("btn").style.color = "orange";
 	}
-	else if (neededClicks >= 40) {
+	else if (neededClicks == 0) {
 		document.getElementById("btn").innerHTML = "Hello Charlie!";
 	}
 }
