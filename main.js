@@ -1,10 +1,13 @@
 var cropClicks = 0
 var neededClicks = 40
 
-var c = document.getElementById("myCanvas");
-var ctx = c.getContext("2d");
-ctx.fillStyle = "#006400";
-ctx.fillRect(0,0,100,100);
+document.addEventListener('DOMContentLoaded',domloaded,false);
+function domloaded(){
+	var c = document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");
+	ctx.fillStyle = "#006400";
+	ctx.fillRect(0,0,100,100);
+}
 
 /* function cropClick(number){
 	cropClicks = cropClicks + number;
@@ -23,17 +26,20 @@ ctx.fillRect(0,0,100,100);
 } */
 
 function cropClick(number){
-	neededClicks = cropClicks - number;
+	var c = document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");
+	neededClicks = neededClicks - number;
 	if (neededClicks <= 30 && neededClicks > 20) {
-		document.getElementById("btn").style.color = "red";
+		ctx.fillStyle = "#009900";
 	}
 	else if (neededClicks <= 20 && neededClicks > 10) {
-		document.getElementById("btn").style.color = "green";
+		ctx.fillStyle = "#00cc00";
 	}
 	else if (neededClicks <= 10 && neededClicks > 0) {
-		document.getElementById("btn").style.color = "orange";
+		ctx.fillStyle = "#00ff00";
 	}
 	else if (neededClicks == 0) {
-		document.getElementById("btn").innerHTML = "Hello Charlie!";
+		ctx.fillStyle = "#573B0C";
 	}
+	ctx.fillRect(0,0,100,100);
 }
