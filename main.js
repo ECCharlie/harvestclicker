@@ -1,6 +1,11 @@
 var cropClicks = 0
 var neededClicks = 40
 
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+ctx.fillStyle = "#006400";
+ctx.fillRect(0,0,100,100);
+
 /* function cropClick(number){
 	cropClicks = cropClicks + number;
 	if (cropClicks >= 10 && cropClicks < 20) {
