@@ -12,6 +12,8 @@ function Plot (count) {
 
 	//continue initialization with creating the canvas element and drawing it
 	var c = document.createElement("CANVAS");
+	c.width = 100;
+	c.height = 100;
 	var ctx = c.getContext("2d");
 	ctx.fillStyle = "#006400";
 	ctx.fillRect(0,0,100,100);
