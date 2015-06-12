@@ -25,32 +25,34 @@ function Plot (count) {
 	this.checkState = function() {
 		this.clicks += 1;
 		console.log("clicked! " + this.clicks);
-		if (this.clicks == 5) {
-			switch (this.state) {
-				case 4:
-					console.log("You are clicking Dirt!");
-					break;
-				case 0:
-					ctx.fillStyle = "#009900";
-					this.state = 1;
-					break;
-				case 1:
-					ctx.fillStyle = "#00cc00";
-					this.state = 2;
-					break;
-				case 2:
-					ctx.fillStyle = "#00ff00";
-					this.state = 3;
-					break;
-				case 3:
-					ctx.fillStyle = "#573B0C";
-					this.state = 4;
-					break;
-				default:
-					break;
+		if (this.state == 4) {
+			console.log("You are clicking Dirt!");
+		}
+		else {
+			if (this.clicks == 5) {
+				switch (this.state) {
+					case 0:
+						ctx.fillStyle = "#009900";
+						this.state = 1;
+						break;
+					case 1:
+						ctx.fillStyle = "#00cc00";
+						this.state = 2;
+						break;
+					case 2:
+						ctx.fillStyle = "#00ff00";
+						this.state = 3;
+						break;
+					case 3:
+						ctx.fillStyle = "#573B0C";
+						this.state = 4;
+						break;
+					default:
+						break;
+				}
+				this.clicks = 0;
+				ctx.fillRect(0,0,100,100);
 			}
-			this.clicks = 0;
-			ctx.fillRect(0,0,100,100);
 		}
 	}
 	c.onclick = function() {
