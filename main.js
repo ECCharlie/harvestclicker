@@ -5,10 +5,15 @@ function domloaded(){
 
 function Plot (count) {
 	//initialize the Plot
+	var div = document.createElement('div');
+	document.body.appendChild(div);
 	var that = this;
 	this.count = count;
 	this.state = 0; // 0 = super grassy, 1-3 = less grassy respectively, 4 = dirt.
 	this.clicks = 0;
+	this.menuUp = 0;
+	this.currentPlant = "";
+	var plantList = ["Plants:", "plant1", "plant2", "plant3"];
 
 	//continue initialization with creating the canvas element and drawing it
 	var c = document.createElement("CANVAS");
@@ -17,7 +22,7 @@ function Plot (count) {
 	var ctx = c.getContext("2d");
 	ctx.fillStyle = "#006400";
 	ctx.fillRect(0,0,100,100);
-	document.body.appendChild(c);
+	div.appendChild(c);
 	console.log("plot initialized");
 
 
@@ -25,11 +30,45 @@ function Plot (count) {
 	this.checkState = function() {
 		this.clicks += 1;
 		console.log("clicked! " + this.clicks);
+		if (this.state == 5) {
+			console.log("You have a " + this.currentPlant + " crop/plant planted!");
+			return;
+		}
 		if (this.state == 4) {
-			console.log("You are clicking Dirt!");
+			if (this.menuUp == 1) {
+				console.log(this.menuUp + " - the menu is up for this plot");
+			}
+			else {
+				this.updateMenu();
+
+/*				var plantSelectMenu = document.createElement("SELECT");
+				plantSelectMenu.id = "plantSelectMenu";
+				div.appendChild(plantSelectMenu);
+				this.menuUp = 1;
+
+				for (var i = 0; i < plantList.length; i++) {
+					var option = document.createElement("OPTION");
+					if (i == 0) {
+						option.selected = "selected";
+						option.disabled = "disabled";
+						option.style.display = "none";
+					}
+					option.value = plantList[i];
+					option.text = plantList[i];
+					plantSelectMenu.appendChild(option);
+
+				}
+
+				plantSelectMenu.onchange = function(){
+					console.log(plantSelectMenu.options[plantSelectMenu.Index].text);
+					that.menuUp = 0;
+					plantSelectMenu.remove();
+					console.log(that.menuUp + " - menu removed, this should be 0");
+				} */
+			}
 		}
 		else {
-			if (this.clicks == 5) {
+			if (this.clicks == 2) {
 				switch (this.state) {
 					case 0:
 						ctx.fillStyle = "#009900";
@@ -55,6 +94,52 @@ function Plot (count) {
 			}
 		}
 	}
+
+	this.updateMenu = function() {
+		var plantSelectMenu = document.createElement("SELECT");
+		div.appendChild(plantSelectMenu);
+		this.menuUp = 1;
+
+		for (var i = 0; i < plantList.length; i++) {
+			var option = document.createElement("OPTION");
+			if (i == 0) {
+				option.selected = "selected";
+				option.disabled = "disabled";
+				option.style.display = "none";
+			}
+			option.value = plantList[i];
+			option.text = plantList[i];
+			plantSelectMenu.appendChild(option);
+
+		}
+
+		this.selectedPlant = function() {
+			this.state = 5;
+			this.currentPlant = plantSelectMenu.options[plantSelectMenu.selectedIndex].text;
+
+			switch (this.currentPlant) {
+				case "plant1":
+					ctx.fillStyle = "#ffff00";
+					break;
+				case "plant2":
+					ctx.fillStyle = "#ff0000";
+					break;
+				case "plant3":
+					ctx.fillStyle = "#0000ff";
+					break;
+			}
+			ctx.fillRect(25,25,50,50);
+		}
+
+		//after a plant is selected
+		plantSelectMenu.onchange = function() {
+			that.selectedPlant();
+			that.menuUp = 0;
+			plantSelectMenu.remove();
+			console.log(that.menuUp + " - menu removed, this should be 0");
+		}
+	}
+
 	c.onclick = function() {
 		that.checkState();
 	}
