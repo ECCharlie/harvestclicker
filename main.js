@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded',domloaded,false);
 function domloaded(){
+	initialize();
 	drawGui();
 }
 
@@ -40,31 +41,6 @@ function Plot (count) {
 			}
 			else {
 				this.updateMenu();
-
-/*				var plantSelectMenu = document.createElement("SELECT");
-				plantSelectMenu.id = "plantSelectMenu";
-				div.appendChild(plantSelectMenu);
-				this.menuUp = 1;
-
-				for (var i = 0; i < plantList.length; i++) {
-					var option = document.createElement("OPTION");
-					if (i == 0) {
-						option.selected = "selected";
-						option.disabled = "disabled";
-						option.style.display = "none";
-					}
-					option.value = plantList[i];
-					option.text = plantList[i];
-					plantSelectMenu.appendChild(option);
-
-				}
-
-				plantSelectMenu.onchange = function(){
-					console.log(plantSelectMenu.options[plantSelectMenu.Index].text);
-					that.menuUp = 0;
-					plantSelectMenu.remove();
-					console.log(that.menuUp + " - menu removed, this should be 0");
-				} */
 			}
 		}
 		else {
@@ -156,23 +132,10 @@ function drawGui() {
 	}
 }
 
+function initialize() {
+	var moneyDiv = document.createElement("div");
+	document.body.appendChild(moneyDiv);
+	var money = 0;
+	moneyDiv.textContent = "Money: " + String(money);
 
-
-/*function cropClick(number){
-	var c = document.getElementById("myCanvas");
-	var ctx = c.getContext("2d");
-	neededClicks = neededClicks - number;
-	if (neededClicks <= 30 && neededClicks > 20) {
-		ctx.fillStyle = "#009900";
-	}
-	else if (neededClicks <= 20 && neededClicks > 10) {
-		ctx.fillStyle = "#00cc00";
-	}
-	else if (neededClicks <= 10 && neededClicks > 0) {
-		ctx.fillStyle = "#00ff00";
-	}
-	else if (neededClicks == 0) {
-		ctx.fillStyle = "#573B0C";
-	}
-	ctx.fillRect(0,0,100,100);
-}*/
+}
