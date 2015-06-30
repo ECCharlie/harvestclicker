@@ -1,12 +1,18 @@
 document.addEventListener('DOMContentLoaded',domloaded,false);
-function domloaded(){
+function domloaded() {
 	initialize();
 	drawGui();
+	requestAnimationFrame(mainLoop);
 }
+
+//declare global vars
+var money = 0;
+var plots = 0;
 
 function Plot (count) {
 	//initialize the Plot
 	var div = document.createElement('div');
+	plots += 1;
 	document.body.appendChild(div);
 	var that = this;
 	this.count = count;
@@ -132,10 +138,33 @@ function drawGui() {
 	}
 }
 
+function update() {
+	moneyDiv = document.getElementById("mDiv");
+	moneyDiv.textContent = "Money: " + String(money);
+}
+
+var lastFrameTimeMs = 0;
+var maxFPS = 1;
+
 function initialize() {
 	var moneyDiv = document.createElement("div");
-	document.body.appendChild(moneyDiv);
-	var money = 0;
+    moneyDiv.id = "mDiv";
+    document.body.appendChild(moneyDiv);
 	moneyDiv.textContent = "Money: " + String(money);
-
 }
+
+function mainLoop(timestamp) {
+	//throttle
+	if (timestamp < lastFrameTimeMs + (1000 / maxFPS)) {
+		requestAnimationFrame(mainLoop);
+		console.log("looping1");
+		return;
+	}
+	lastFrameTimeMs = timestamp;
+
+    money += 1;
+    console.log("looping");
+    update();
+	requestAnimationFrame(mainLoop);
+}
+
