@@ -7,12 +7,12 @@ function domloaded() {
 
 //declare global vars
 var money = 0;
-var plots = 0;
+var plotCount = 0;
+var plotArray = ["Plots:"];
 
 function Plot (count) {
 	//initialize the Plot
 	var div = document.createElement('div');
-	plots += 1;
 	document.body.appendChild(div);
 	var that = this;
 	this.count = count;
@@ -134,7 +134,9 @@ function drawGui() {
 	document.body.appendChild(b);
 
 	b.onclick = function() {
-		var plot = new Plot(1);
+		plotCount++;
+		var plot = new Plot(plotCount);
+		plotArray.push(plot);
 	}
 }
 
@@ -153,6 +155,30 @@ function initialize() {
 	moneyDiv.textContent = "Money: " + String(money);
 }
 
+function calculateRev() {
+	var tempRev = 0;
+
+	if (plotCount > 0) {
+		for (i = 1; i < plotCount + 1; i++) {
+			switch (plotArray[i].currentPlant) {
+				case "plant1":
+					tempRev +=1;
+					break;
+				case "plant2":
+					tempRev +=2;
+					break;
+				case "plant3":
+					tempRev +=3;
+					break;
+				default:
+					tempRev +=0;
+			}
+		}
+	}
+	
+	return tempRev;
+}
+
 function mainLoop(timestamp) {
 	//throttle
 	if (timestamp < lastFrameTimeMs + (1000 / maxFPS)) {
@@ -162,9 +188,8 @@ function mainLoop(timestamp) {
 	}
 	lastFrameTimeMs = timestamp;
 
-    money += 1;
+    money += calculateRev();
     console.log("looping");
     update();
 	requestAnimationFrame(mainLoop);
 }
-
