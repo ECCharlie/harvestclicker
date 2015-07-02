@@ -84,7 +84,7 @@ function Plot (count) {
 
 		for (var i = 0; i < plantList.length; i++) {
 			var option = document.createElement("OPTION");
-			if (i == 0) {
+			if (i === 0) {
 				option.selected = "selected";
 				option.disabled = "disabled";
 				option.style.display = "none";
@@ -109,6 +109,8 @@ function Plot (count) {
 				case "plant3":
 					ctx.fillStyle = "#0000ff";
 					break;
+				case "default":
+					break;
 			}
 			ctx.fillRect(25,25,50,50);
 		}
@@ -129,14 +131,26 @@ function Plot (count) {
 
 function drawGui() {
 	var b = document.createElement("BUTTON");
-	var t = document.createTextNode("Create Plot!");
+	var t = document.createTextNode("Buy Plot! ($100)");
 	b.appendChild(t);
 	document.body.appendChild(b);
 
+	//create initial free plot
+	plotCount++;
+    var plot = new Plot(plotCount);
+    plotArray.push(plot);
+
 	b.onclick = function() {
+		buyPlot();
+	}
+}
+
+function buyPlot() {
+	if (money >= 100) {
 		plotCount++;
-		var plot = new Plot(plotCount);
-		plotArray.push(plot);
+    	var plot = new Plot(plotCount);
+    	plotArray.push(plot);
+		money -= 100;
 	}
 }
 
@@ -172,6 +186,7 @@ function calculateRev() {
 					break;
 				default:
 					tempRev +=0;
+					break;
 			}
 		}
 	}
