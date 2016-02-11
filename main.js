@@ -7,8 +7,39 @@ function domloaded() {
 
 //declare global vars
 var money = 0;
+var actionLog = "Welcome to Harvest Keeper!";
 var plotCount = 0;
 var plotArray = ["Plots:"];
+var inventorySize = 6;
+var inventoryList = [];
+
+function inventoryItem(id, count) {
+	this.id = id;
+	this.count = count;
+}
+
+//function to populate the inventoryList array
+function getSeed() {
+	var roll = Math.floor((Math.random() * 10) + 1);
+	if (roll <= 5) {
+		actionLog = "You forage and find nothing!";
+	} else if (roll > 5) {
+		actionLog = "You found money!";
+		money++;
+	} else {
+		return;
+	}
+
+	/*if (inventoryList.length < 6) {
+		inventoryList.push(new inventoryItem(0, 1));
+		console.log("pushed!");
+	}*/
+};
+
+console.log("Inventory Items: " + inventoryList.length);
+//getSeed();
+console.log("Inventory Items: " + inventoryList.length);
+console.log(inventoryList[0].id);
 
 function Plot (count) {
 	//initialize the Plot
@@ -131,14 +162,39 @@ function Plot (count) {
 
 function drawGui() {
 	var b = document.createElement("BUTTON");
-	var t = document.createTextNode("Buy Plot! ($100)");
-	b.appendChild(t);
+	b.id = "plotPriceButton";
+	
+	//var t = document.createTextNode("Buy Plot! ($20)");
+	//b.appendChild(t);
 	document.body.appendChild(b);
+
+	//draw the forage square button
+	var forageDiv = document.createElement('div');
+	document.body.appendChild(forageDiv);
+	var f = document.createElement("CANVAS");
+	f.width = 100;
+	f.height = 100;
+	var foragectx = f.getContext("2d");
+	foragectx.fillStyle = "#B8860B";
+	foragectx.fillRect(0,0,100,100);
+	foragectx.fillStyle = "#000000";
+	foragectx.font = "bold 16px Arial";
+	foragectx.fillText("Forage",25,50);
+	forageDiv.appendChild(f);
+
+	f.onclick = function() {
+		getSeed();
+	}
+
 
 	//create initial free plot
 	plotCount++;
     var plot = new Plot(plotCount);
     plotArray.push(plot);
+
+    //set plot price
+    b.textContent = "Buy Plot! ($" + String(plotCount * 20) + " )";
+
 
 	b.onclick = function() {
 		buyPlot();
@@ -146,27 +202,46 @@ function drawGui() {
 }
 
 function buyPlot() {
-	if (money >= 100) {
+	if (money >= plotCount * 20) {
+		money -= plotCount * 20;
+
 		plotCount++;
     	var plot = new Plot(plotCount);
     	plotArray.push(plot);
-		money -= 100;
+    	var b = document.getElementById("plotPriceButton");
+    	/* b.removeChild(b.childNodes[0]);
+    	var t = document.createTextNode("Buy Plot! ($40)");
+    	b.appendChild(t); */
+    	b.textContent = "Buy Plot! ($" + String(plotCount * 20) + " )";
+		
 	}
 }
 
 function update() {
+	//update current money count
 	moneyDiv = document.getElementById("mDiv");
 	moneyDiv.textContent = "Money: " + String(money);
+
+	//update current actionLog (notice)
+	actionLogDiv = document.getElementById("alDiv");
+	actionLogDiv.textContent = "Notice: " + actionLog;
 }
 
 var lastFrameTimeMs = 0;
 var maxFPS = 1;
 
 function initialize() {
+	// create the money div
 	var moneyDiv = document.createElement("div");
-    moneyDiv.id = "mDiv";
-    document.body.appendChild(moneyDiv);
-	moneyDiv.textContent = "Money: " + String(money);
+	moneyDiv.id = "mDiv";
+	document.body.appendChild(moneyDiv);
+    moneyDiv.textContent = "Money: " + String(money);
+
+    //create the actionLog div (used for notices)
+    var actionLogDiv = document.createElement("div");
+    actionLogDiv.id = "alDiv";
+    document.body.appendChild(actionLogDiv);
+    actionLogDiv.textContent = "Notice: Welcome to Harvest Keeper!";
 }
 
 function calculateRev() {
