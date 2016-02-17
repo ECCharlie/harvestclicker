@@ -18,7 +18,7 @@ function inventoryItem(id, count) {
 	this.count = count;
 }
 
-//function to populate the inventoryList array
+//function to populate the inventoryList array.
 function getSeed() {
 	var roll = Math.floor((Math.random() * 10) + 1);
 	if (roll <= 5) {
@@ -247,6 +247,7 @@ function initialize() {
 function calculateRev() {
 	var tempRev = 0;
 
+	//add up current plant counts to find revenue
 	if (plotCount > 0) {
 		for (i = 1; i < plotCount + 1; i++) {
 			switch (plotArray[i].currentPlant) {
